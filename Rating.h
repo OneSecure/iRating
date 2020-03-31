@@ -28,5 +28,6 @@ typedef void (^CompletionBlock)(NSError* error, BOOL updateAvailable);
 - (void) checkNow:(BOOL)refresh completion:(CompletionBlock)completion;
 
 + (instancetype) sharedInstance;
+- (instancetype) init UNAVAILABLE_ATTRIBUTE;
 
 @end

@@ -100,16 +100,6 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
     return self;
 }
 
-- (UIViewController *) topMostController {
-    UIViewController *topController = _rootCtrl;
-    
-    while (topController.presentedViewController) {
-        topController = topController.presentedViewController;
-    }
-    
-    return topController;
-}
-
 - (CGFloat) remindIntervalDays {
     id value = [_userDefaults objectForKey:kRemindIntervalDays];
     if (value) {
@@ -253,36 +243,27 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
     [UIAlertController alertControllerWithTitle:messageTitle message:message preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction* rateAction =
-    [UIAlertAction actionWithTitle:rateButtonLabel
-                             style:UIAlertActionStyleDefault
-                           handler:^(UIAlertAction * action)
-     {
-        [self doOpenRatingsPageInAppStore];
+    [UIAlertAction actionWithTitle:rateButtonLabel style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:nil];
+        [self doOpenRatingsPageInAppStore];
     }];
     [alert addAction:rateAction];
     
     UIAlertAction* cancelAction =
-    [UIAlertAction actionWithTitle:cancelButtonLabel
-                             style:UIAlertActionStyleDefault
-                           handler:^(UIAlertAction * action)
-     {
-        [self doIgnoreRateThisVersion];
+    [UIAlertAction actionWithTitle:cancelButtonLabel style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:nil];
+        [self doIgnoreRateThisVersion];
     }];
     [alert addAction:cancelAction];
     
     UIAlertAction* remindAction =
-    [UIAlertAction actionWithTitle:remindButtonLabel
-                             style:UIAlertActionStyleDefault
-                           handler:^(UIAlertAction * action)
-     {
-        [self doRemindLater];
+    [UIAlertAction actionWithTitle:remindButtonLabel style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         [alert dismissViewControllerAnimated:YES completion:nil];
+        [self doRemindLater];
     }];
     [alert addAction:remindAction];
     
-    [[self topMostController] presentViewController:alert animated:YES completion:nil];
+    [_rootCtrl presentViewController:alert animated:YES completion:nil];
 }
 
 - (void) promptForNewVersion:(BOOL)refresh rootController:(UIViewController *)rootController{
@@ -325,7 +306,7 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
                 }];
                 [alert addAction:cancelAction];
                 
-                [[self topMostController] presentViewController:alert animated:YES completion:nil];
+                [self->_rootCtrl presentViewController:alert animated:YES completion:nil];
             });
         }
         else {
@@ -334,16 +315,9 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
                 UIAlertController * alert =
                 [UIAlertController alertControllerWithTitle:self->_appName message:msg preferredStyle:UIAlertControllerStyleAlert];
                 
-                UIAlertAction* okAction =
-                [UIAlertAction actionWithTitle:ok
-                                         style:UIAlertActionStyleDefault
-                                       handler:^(UIAlertAction * action)
-                 {
-                    [alert dismissViewControllerAnimated:YES completion:nil];
-                }];
-                [alert addAction:okAction];
+                [alert addAction:[UIAlertAction actionWithTitle:ok style:UIAlertActionStyleCancel handler:nil]];
                 
-                [[self topMostController] presentViewController:alert animated:YES completion:nil];
+                [self->_rootCtrl presentViewController:alert animated:YES completion:nil];
             });
         }
     }];
