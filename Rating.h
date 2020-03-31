@@ -18,6 +18,7 @@ typedef void (^CompletionBlock)(NSError* error, BOOL updateAvailable);
 @property(nonatomic, assign) BOOL currentVersionRated;
 @property(nonatomic, assign) BOOL existNewVersion;
 @property(nonatomic, weak) UIViewController *rootCtrl;
+@property(nonatomic, assign) BOOL jumpToAppStore;
 
 - (void) excuteRatingTasks:(UIViewController *)rootCtrl;
 

@@ -373,16 +373,18 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
         {
             if (@available(iOS 10.3, *)) {
                 [SKStoreReviewController requestReview];
+            } else {
+                NSAssert(NO, @"somethine went wrong");
             }
         } else {
-#if 0
-            [[UIApplication iRating_sharedApplication] iRating_openURL:ratingsURL];
-#else
-            NSString *appID = [NSString stringWithFormat:@"%ld", (long)self.appStoreID];
-            self->_appStoreView = [[AppStoreViewController alloc] initWithAppID:appID];
-            [self->_appStoreView popup:self->_rootCtrl finish:^{
-            }];
-#endif
+            if (self.jumpToAppStore) {
+                [[UIApplication iRating_sharedApplication] iRating_openURL:ratingsURL];
+            } else {
+                NSString *appID = [NSString stringWithFormat:@"%ld", (long)self.appStoreID];
+                self->_appStoreView = [[AppStoreViewController alloc] initWithAppID:appID];
+                [self->_appStoreView popup:self->_rootCtrl finish:^{
+                }];
+            }
         }
         self.currentVersionRated = YES;
     }
