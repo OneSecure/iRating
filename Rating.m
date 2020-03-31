@@ -245,7 +245,9 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
     UIAlertAction* rateAction =
     [UIAlertAction actionWithTitle:rateButtonLabel style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:nil];
-        [self doOpenRatingsPageInAppStore];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self doOpenRatingsPageInAppStore];
+        });
     }];
     [alert addAction:rateAction];
     
@@ -291,8 +293,10 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
                                          style:UIAlertActionStyleDefault
                                        handler:^(UIAlertAction * action)
                  {
-                    [self doOpenRatingsPageInAppStore];
                     [alert dismissViewControllerAnimated:YES completion:nil];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self doOpenRatingsPageInAppStore];
+                    });
                 }];
                 [alert addAction:okAction];
                 
