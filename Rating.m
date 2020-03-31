@@ -9,7 +9,7 @@
 #import "Rating.h"
 #import "AppStoreViewController.h"
 #import <StoreKit/StoreKit.h>
-
+#import "UIApplication+ExtensionSafeAdditions.h"
 
 static NSString *const kAppLookupUrl = @"https://itunes.apple.com/lookup?bundleId=%@";
 static NSString *const kRemindIntervalDays = @"remindIntervalDays";
@@ -102,11 +102,11 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
 
 - (UIViewController *) topMostController {
     UIViewController *topController = _rootCtrl;
-
+    
     while (topController.presentedViewController) {
         topController = topController.presentedViewController;
     }
-
+    
     return topController;
 }
 
@@ -184,9 +184,9 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
 
 - (NSString *) localizedStringForKey:(NSString *)key withDefault:(NSString*)defaultString {
     static NSBundle *bundle = nil;
-    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSBundle *thisBundle = [NSBundle bundleForClass:self.class];
     if (bundle == nil) {
-        NSString *bundlePath = [mainBundle pathForResource:@"Rating" ofType:@"bundle"];
+        NSString *bundlePath = [thisBundle pathForResource:@"Rating" ofType:@"bundle"];
         
         bundle = [NSBundle bundleWithPath:bundlePath];
         NSArray *languages = [NSLocale preferredLanguages];
@@ -198,10 +198,10 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
             bundlePath = [bundle pathForResource:language ofType:@"lproj"];
         }
         
-        bundle = [NSBundle bundleWithPath:bundlePath] ?:mainBundle;
+        bundle = [NSBundle bundleWithPath:bundlePath] ?:thisBundle;
     }
     defaultString = [bundle localizedStringForKey:key value:defaultString table:nil];
-    return [mainBundle localizedStringForKey:key value:defaultString table:nil];
+    return [thisBundle localizedStringForKey:key value:defaultString table:nil];
 }
 
 - (NSString *) messageTitle {
@@ -248,41 +248,41 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
     NSString * rateButtonLabel = self.rateButtonLabel;
     NSString * cancelButtonLabel = self.cancelButtonLabel;
     NSString * remindButtonLabel = self.remindButtonLabel;
-
-        UIAlertController * alert =
-        [UIAlertController alertControllerWithTitle:messageTitle message:message preferredStyle:UIAlertControllerStyleAlert];
-
-        UIAlertAction* rateAction =
-        [UIAlertAction actionWithTitle:rateButtonLabel
-                                 style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action)
-         {
-             [self doOpenRatingsPageInAppStore];
-             [alert dismissViewControllerAnimated:YES completion:nil];
-         }];
-        [alert addAction:rateAction];
-
-        UIAlertAction* cancelAction =
-        [UIAlertAction actionWithTitle:cancelButtonLabel
-                                 style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action)
-         {
-             [self doIgnoreRateThisVersion];
-             [alert dismissViewControllerAnimated:YES completion:nil];
-         }];
-        [alert addAction:cancelAction];
-
-        UIAlertAction* remindAction =
-        [UIAlertAction actionWithTitle:remindButtonLabel
-                                 style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action)
-         {
-             [self doRemindLater];
-             [alert dismissViewControllerAnimated:YES completion:nil];
-         }];
-        [alert addAction:remindAction];
-
-        [[self topMostController] presentViewController:alert animated:YES completion:nil];
+    
+    UIAlertController * alert =
+    [UIAlertController alertControllerWithTitle:messageTitle message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* rateAction =
+    [UIAlertAction actionWithTitle:rateButtonLabel
+                             style:UIAlertActionStyleDefault
+                           handler:^(UIAlertAction * action)
+     {
+        [self doOpenRatingsPageInAppStore];
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alert addAction:rateAction];
+    
+    UIAlertAction* cancelAction =
+    [UIAlertAction actionWithTitle:cancelButtonLabel
+                             style:UIAlertActionStyleDefault
+                           handler:^(UIAlertAction * action)
+     {
+        [self doIgnoreRateThisVersion];
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alert addAction:cancelAction];
+    
+    UIAlertAction* remindAction =
+    [UIAlertAction actionWithTitle:remindButtonLabel
+                             style:UIAlertActionStyleDefault
+                           handler:^(UIAlertAction * action)
+     {
+        [self doRemindLater];
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alert addAction:remindAction];
+    
+    [[self topMostController] presentViewController:alert animated:YES completion:nil];
 }
 
 - (void) promptForNewVersion:(BOOL)refresh rootController:(UIViewController *)rootController{
@@ -304,27 +304,27 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertController * alert =
                 [UIAlertController alertControllerWithTitle:self->_appName message:msg preferredStyle:UIAlertControllerStyleAlert];
-
+                
                 UIAlertAction* okAction =
                 [UIAlertAction actionWithTitle:ok
                                          style:UIAlertActionStyleDefault
                                        handler:^(UIAlertAction * action)
                  {
-                     [self doOpenRatingsPageInAppStore];
-                     [alert dismissViewControllerAnimated:YES completion:nil];
-                 }];
+                    [self doOpenRatingsPageInAppStore];
+                    [alert dismissViewControllerAnimated:YES completion:nil];
+                }];
                 [alert addAction:okAction];
-
+                
                 UIAlertAction* cancelAction =
                 [UIAlertAction actionWithTitle:cancel
                                          style:UIAlertActionStyleDefault
                                        handler:^(UIAlertAction * action)
                  {
-                     self.ignoreUpdateThisVersion = YES;
-                     [alert dismissViewControllerAnimated:YES completion:nil];
-                 }];
+                    self.ignoreUpdateThisVersion = YES;
+                    [alert dismissViewControllerAnimated:YES completion:nil];
+                }];
                 [alert addAction:cancelAction];
-
+                
                 [[self topMostController] presentViewController:alert animated:YES completion:nil];
             });
         }
@@ -333,16 +333,16 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertController * alert =
                 [UIAlertController alertControllerWithTitle:self->_appName message:msg preferredStyle:UIAlertControllerStyleAlert];
-
+                
                 UIAlertAction* okAction =
                 [UIAlertAction actionWithTitle:ok
                                          style:UIAlertActionStyleDefault
                                        handler:^(UIAlertAction * action)
                  {
-                     [alert dismissViewControllerAnimated:YES completion:nil];
-                 }];
+                    [alert dismissViewControllerAnimated:YES completion:nil];
+                }];
                 [alert addAction:okAction];
-
+                
                 [[self topMostController] presentViewController:alert animated:YES completion:nil];
             });
         }
@@ -361,10 +361,9 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
 }
 
 - (void) doOpenRatingsPageInAppStore {
-#if !defined(TARGE_APP_EXTENSION)
     NSURL *ratingsURL = [self ratingsURL]; // [NSURL URLWithString:_trackViewUrl];
     
-    if ([[UIApplication sharedApplication] canOpenURL:ratingsURL]) {
+    if ([[UIApplication iRating_sharedApplication] iRating_canOpenURL:ratingsURL]) {
         NSLog(@"Rating will open the App Store ratings page using the following URL: %@", ratingsURL);
         
         NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:self.timingBeginning];
@@ -372,15 +371,17 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
             self.currentVersionRated &&
             [NSClassFromString(@"SKStoreReviewController") class])
         {
-            [SKStoreReviewController requestReview];
+            if (@available(iOS 10.3, *)) {
+                [SKStoreReviewController requestReview];
+            }
         } else {
 #if 0
-        [[UIApplication sharedApplication] openURL:ratingsURL];
+            [[UIApplication iRating_sharedApplication] iRating_openURL:ratingsURL];
 #else
-        NSString *appID = [NSString stringWithFormat:@"%ld", (long)self.appStoreID];
-        _appStoreView = [[AppStoreViewController alloc] initWithAppID:appID];
-        [_appStoreView popup:_rootCtrl finish:^{
-        }];
+            NSString *appID = [NSString stringWithFormat:@"%ld", (long)self.appStoreID];
+            self->_appStoreView = [[AppStoreViewController alloc] initWithAppID:appID];
+            [self->_appStoreView popup:self->_rootCtrl finish:^{
+            }];
 #endif
         }
         self.currentVersionRated = YES;
@@ -394,10 +395,8 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
             message = @"Rating could not open the ratings page because the App Store is not available on the iOS simulator";
         }
 #endif
-        
         NSLog(@"%@", message);
     }
-#endif
 }
 
 - (NSURL *) ratingsURL {
@@ -408,9 +407,10 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
         urlString = RatingiOS7AppStoreURLFormat;
     } else {
         urlString = RatingiOSAppStoreURLFormat;
-    } */
+    }
+    */
     urlString = RatingiOSAppStoreURLFormat2;
-
+    
     return [NSURL URLWithString:[NSString stringWithFormat:urlString, @(self.appStoreID)]];
 }
 
@@ -476,13 +476,11 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
             return;
         }
     }
-
-#if !defined(TARGE_APP_EXTENSION)
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        [UIApplication iRating_sharedApplication].networkActivityIndicatorVisible = YES;
     });
-#endif
-
+    
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:kAppLookupUrl, _bundleID]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -492,11 +490,9 @@ static CGFloat defaultRemindIntervalDays = 5.0f;
         if (completion != nil) {
             completion(error, self->_existNewVersion);
         }
-#if !defined(TARGE_APP_EXTENSION)
         dispatch_async(dispatch_get_main_queue(), ^{
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            [UIApplication iRating_sharedApplication].networkActivityIndicatorVisible = NO;
         });
-#endif
     }];
     [task resume];
 }

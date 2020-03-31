@@ -6,7 +6,7 @@ Abstract: A container view controller that manages an ADBannerView and a content
 
 #import "AppStoreViewController.h"
 #import <StoreKit/StoreKit.h>
-
+#import "UIApplication+ExtensionSafeAdditions.h"
 
 @interface AppStoreViewController () <SKStoreProductViewControllerDelegate>
 @end
@@ -23,8 +23,8 @@ Abstract: A container view controller that manages an ADBannerView and a content
 - (void) goAppStoreInOutside {
     NSString *urlString = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/us/app/id%@?mt=8", _appID];
     NSURL *url = [NSURL URLWithString:urlString];
-    if ([[UIApplication sharedApplication] canOpenURL:url]) {
-        [[UIApplication sharedApplication] openURL:url];
+    if ([[UIApplication iRating_sharedApplication] iRating_canOpenURL:url]) {
+        [[UIApplication iRating_sharedApplication] iRating_openURL:url];
     }
 }
 
