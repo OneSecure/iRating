@@ -1,0 +1,6 @@
+"RatingMessageTitle" = "Notez %@";
+"RatingAppMessage" = "Si vous aimez utiliser %@, n'oubliez pas de donner votre avis sur l'App Store. Cela ne prend qu'une minute. Merci d'avance pour votre soutien !";
+"RatingGameMessage" = "Si vous aimez jouer à %@, n'oubliez pas de donner votre avis sur l'App Store. Cela ne prend qu'une minute. Merci d'avance pour votre soutien !";
+"RatingCancelButton" = "Non, merci";
+"RatingRateButton" = "Noter maintenant";
+"RatingRemindButton" = "Me le rappeler ultérieurement";

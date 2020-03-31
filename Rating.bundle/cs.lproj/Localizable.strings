@@ -1,0 +1,6 @@
+"RatingMessageTitle" = "Ohodnotit %@";
+"RatingAppMessage" = "Pokud se vám líbí %@, našli byste si chvilku na ohodnocení aplikace? Nebude to trvat víc než minutu.\nDěkujeme za vaši podporu!";
+"RatingGameMessage" = "Pokud se vám %@ líbí, našli byste si chvilku na ohodnocení hry? Nebude to trvat víc než minutu. Děkujeme za vaši podporu!";
+"RatingCancelButton" = "Ne, děkuji";
+"RatingRateButton" = "Ohodnotit nyní";
+"RatingRemindButton" = "Připomenout později";

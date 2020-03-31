@@ -1,0 +1,6 @@
+"RatingMessageTitle" = "Beoordeel %@";
+"RatingAppMessage" = "Als het gebruik van %@ je bevalt, wil je dan een moment nemen om het te beoordelen? Het duurt nog geen minuut. Bedankt voor je steun!";
+"RatingGameMessage" = "Als het spelen van %@ je bevalt, wil je dan een moment nemen om het te beoordelen? Het duurt nog geen minuut. Bedankt voor je steun!";
+"RatingCancelButton" = "Nee, bedankt";
+"RatingRateButton" = "Beoordeel nu";
+"RatingRemindButton" = "Herinner me er later aan";

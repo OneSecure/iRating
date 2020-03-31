@@ -1,0 +1,6 @@
+"RatingMessageTitle" = "Đánh giá %@";
+"RatingAppMessage" = "Nếu thích sử dụng %@, bạn có muốn giành một chút thời gian để đánh giá nó? Sẽ không lâu hơn một phút. Cảm ơn sự hỗ trợ của bạn!";
+"RatingGameMessage" = "Nếu thích chơi %@, bạn có muốn giành một chút thời gian để đánh giá nó? Sẽ không lâu hơn một phút. Cảm ơn sự hỗ trợ của bạn!";
+"RatingCancelButton" = "Không, Cảm ơn";
+"RatingRateButton" = "Đánh Giá Ngay";
+"RatingRemindButton" = "Nhắc Tôi Sau";
